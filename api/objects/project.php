@@ -28,10 +28,34 @@ class Project {
 		return $stmt;
 	}
 
+	public function readOne() {
+		$query = "SELECT * FROM " . $this->table_name . " WHERE id = ?";
+
+		// Prepare the statement
+		$stmt = $this->conn->prepare($query);
+
+		// bind our ID to the prepared value
+		$stmt->bindParam(1, $this->id);
+
+		// Execute query
+		$stmt->execute();
+
+		// Get retrieved row
+		$row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		// Check if row is null (?)
+		if (!is_null($row)) {
+			// Read stuff from that puppy
+			$this->name = $row["name"];
+			$this->submission_date = $row["submission_date"];
+			$this->description = $row["description"];
+		}
+	}
+
 	public function create() {
 		$query = "INSERT INTO " . $this->table_name . "
 			SET
-				id=:id, name=:name, submission_date=:submission_date, description=:description"
+				id=:id, name=:name, submission_date=:submission_date, description=:description";
 
 		// Prepare query
 		$stmt = $this->conn->prepare($query);
@@ -50,8 +74,6 @@ class Project {
 
 		// Execute!
 		return $stmt.execute();	// Boolean value
-
-
 	}
 }
 ?>
