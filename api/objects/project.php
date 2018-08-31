@@ -15,6 +15,17 @@ class Project {
 		$this->conn = $db;
 	}
 
-}
+	public function read() {	// This reads them all, I guess
+		// Select all query
+		$query = "SELECT * FROM " . $this->table_name . " ORDER BY submission_date DESC";
 
+		// Prepare query statement
+		$stmt = $this->conn->prepare($query);
+
+		// Execute the statement
+		$stmt->execute();
+
+		return $stmt;
+	}
+}
 ?>
