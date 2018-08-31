@@ -105,6 +105,22 @@ class Project {
 		return $stmt->execute();
 	}
 
+	public function delete() {
+		// delete query
+    	$query = "DELETE FROM " . $this->table_name . " WHERE id = ?";
+
+		// Prepare the statement
+		$stmt = $this->conn->prepare($query);
+
+		// Sanitize
+    	$this->id=htmlspecialchars(strip_tags($this->id));
+
+		// Bind the data
+		$stmt->bindParam(1, $this->id);
+
+		// Do it dude
+		return $stmt->execute();
+	}
 
 }
 ?>
