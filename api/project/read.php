@@ -35,10 +35,10 @@ if ($num > 0) {
 
 		// Create a project model instance
 		$project_item = array(
-			"id" -> $id,
-			"name" -> $name,
-			"submission_date" -> $submission_date,
-			"description" -> $description
+			"id" => $id,
+			"name" => $name,
+			"submission_date" => $submission_date,
+			"description" => $description
 		);
 
 		// Add it to our results
@@ -49,7 +49,7 @@ if ($num > 0) {
 }
 else{
     echo json_encode(
-        array("message" => "No projects found.")	// This is how you send back an error message 
+        array("message" => "No projects found.")	// This is how you send back an error message
     );
 }
 
