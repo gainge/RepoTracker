@@ -15,11 +15,11 @@ $db = $database->getConnection();
 $project = new Project($db);
 
 // Query projects
-$stmt = $project->read();	// TODO: add this crap lol
-$num = $stmt->rowCount();
+$stmt = $project->read();
+$num = $stmt->rowCount();	// I don't think this thing is working lel
 
 // Check if record was found
-if ($num > 0) {
+if ($num >= 0) {
 	// Create an array to store the results in
 	$projects_array = array();
 	$projects_array["records"] = array();	// Not really sure what this is doing lol, but I trust it
