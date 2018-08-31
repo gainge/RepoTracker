@@ -75,5 +75,36 @@ class Project {
 		// Execute!
 		return $stmt.execute();	// Boolean value
 	}
+
+	public function update() {
+		$query = "UPDATE " . $this->table_name . "
+				SET
+					name = :name,
+					submission_date = :submission_date,
+					description = :description
+				WHERE
+					id = :id";
+
+		// Prepare the statement
+		$stmt = $this->conn->prepare($query);
+
+		// Sanitize!
+		$this->id = htmlspecialchars(strip_tags($this->id));
+		$this->name = htmlspecialchars(strip_tags($this->name));
+		$this->submission_date = htmlspecialchars(strip_tags($this->submission_date));
+		$this->description = htmlspecialchars(strip_tags($this->description));
+
+		// Bind it, sucka
+		// I wonder if we can reduce this code duplication with a method...
+		$stmt->bindParam(":id", $this->id);
+		$stmt->bindParam(":name", $this->name);
+		$stmt->bindParam(":submission_date", $this->submission_date);
+		$stmt->bindParam(":description", $this->description);
+
+		// Return the result
+		return $stmt->execute();
+	}
+
+
 }
 ?>
