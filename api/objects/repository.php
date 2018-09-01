@@ -18,7 +18,7 @@ class Repository {
 	}
 
 	// Object functions
-	public function readFromProject($target_project_id) {
+	public function readByProject($target_project_id) {
 		$query = "SELECT * FROM " . $this->table_name . " WHERE project_id = ? ORDER BY submission_date DESC";
 
 		// Prepare the statement
@@ -103,13 +103,13 @@ class Repository {
 
 	public function delete() {
 		// delete query
-    	$query = "DELETE FROM " . $this->table_name . " WHERE id = ?";
+		$query = "DELETE FROM " . $this->table_name . " WHERE id = ?";
 
 		// Prepare the statement
 		$stmt = $this->conn->prepare($query);
 
 		// Sanitize
-    	$this->id=htmlspecialchars(strip_tags($this->id));
+		$this->id=htmlspecialchars(strip_tags($this->id));
 
 		// Bind the data
 		$stmt->bindParam(1, $this->id);
