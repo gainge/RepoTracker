@@ -73,7 +73,7 @@ class Project {
 		$stmt->bindParam(":description", $this->description);
 
 		// Execute!
-		return $stmt.execute();	// Boolean value
+		return $stmt->execute();	// Boolean value
 	}
 
 	public function update() {
