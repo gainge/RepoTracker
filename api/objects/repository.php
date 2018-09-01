@@ -65,7 +65,57 @@ class Repository {
 
 		// Execute!
 		return $stmt->execute();
+	}
 
+	public function update() {
+		$query = "INSERT INTO " . $this->table_name . "
+			SET
+				link = :link,
+				submission_date = :submission_date,
+				ta_id = :ta_id,
+				project_id = :project_id,
+				active = :active
+			WHERE
+				id = :id";
+
+		// Prepare dat yung query
+		$stmt = $this->conn->prepare($query);
+
+		// Sanitize I guess
+		$this->id = htmlspecialchars(strip_tags($this->id));
+		$this->link = htmlspecialchars(strip_tags($this->link));
+		$this->submission_date = htmlspecialchars(strip_tags($this->submission_date));
+		$this->ta_id = htmlspecialchars(strip_tags($this->ta_id));
+		$this->project_id = htmlspecialchars(strip_tags($this->project_id));
+		$this->active = htmlspecialchars(strip_tags($this->active));
+
+		// Bind the values
+		$stmt->bindParam(":id", $this->id);
+		$stmt->bindParam(":link", $this->link);
+		$stmt->bindParam(":submission_date", $this->submission_date);
+		$stmt->bindParam(":ta_id", $this->ta_id);
+		$stmt->bindParam(":project_id", $this->project_id);
+		$stmt->bindParam(":active", $this->active);
+
+		// Execute!
+		return $stmt->execute();
+	}
+
+	public function delete() {
+		// delete query
+    	$query = "DELETE FROM " . $this->table_name . " WHERE id = ?";
+
+		// Prepare the statement
+		$stmt = $this->conn->prepare($query);
+
+		// Sanitize
+    	$this->id=htmlspecialchars(strip_tags($this->id));
+
+		// Bind the data
+		$stmt->bindParam(1, $this->id);
+
+		// Do it dude
+		return $stmt->execute();
 	}
 
 }
