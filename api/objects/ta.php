@@ -38,6 +38,14 @@ class TA {
 		$this->add_date = htmlspecialchars(strip_tags($this->add_date));
 		$this->active = htmlspecialchars(strip_tags($this->active));
 
+		// Bind the values
+		$stmt->bindParam(":id", $this->id);
+		$stmt->bindParam(":netid", $this->netid);
+		$stmt->bindParam(":name", $this->name);
+		$stmt->bindParam(":added_by_id", $this->added_by_id);
+		$stmt->bindParam(":add_date", $this->add_date);
+		$stmt->bindParam(":active", $this->active);
+
 		// Do the thing!
 		return $stmt->execute();
 	}
