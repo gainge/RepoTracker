@@ -8,38 +8,32 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 // Get database connection
 include_once "../config/database.php";
-
-// Access model object
-include_once "../objects/project.php";
+include_once "../objects/ta.php";
 
 $database = new Database();
 $db = $database->getConnection();
 
-$project = new Project($db);
+$ta = new TA($db);
 
 // Get posted data
 $data = json_decode(file_get_contents("php://input"));
+$ta->id = $data->id;
+$ta->netid = $data->netid;
+$ta->name = $data->name;
+$ta->added_by_id = $data->added_by_id;
+$ta->add_date = $data->add_date;
+$ta->active = $data->active;
 
-// Set project property values
-$project->id = $data->id;
-$project->name = $data->name;
-$project->submission_date = $data->submission_date;
-$project->description = $data->description;
-
-// Create the project
-if ($project->create()) {
+// Create the TA!
+if ($ta->create()) {
 	echo '{';
-        echo '"message": "Project was created."';
+        echo '"message": "TA was Added!"';
     echo '}';
 }
 else {
 	echo '{';
-        echo '"message": "Unable to create project."';
+        echo '"message": "Unable to add TA."';
     echo '}';
 }
-
-
-
-
 
 ?>
