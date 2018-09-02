@@ -68,7 +68,7 @@ class Repository {
 	}
 
 	public function update() {
-		$query = "INSERT INTO " . $this->table_name . "
+		$query = "UPDATE " . $this->table_name . "
 			SET
 				link = :link,
 				submission_date = :submission_date,
