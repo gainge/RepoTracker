@@ -59,6 +59,19 @@ class TA {
 		return $stmt->execute();
 	}
 
+	public function read() {	// Reads all them suckers
+		// Select all query
+		$query = "SELECT * FROM " . $this->table_name . " ORDER BY name DESC";
+
+		// Prepare query statement
+		$stmt = $this->conn->prepare($query);
+
+		// Execute the statement
+		$stmt->execute();
+
+		return $stmt;
+	}
+
 
 
 

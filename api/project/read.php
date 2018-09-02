@@ -47,7 +47,7 @@ if ($num >= 0) {
 
 	echo json_encode($projects_array);
 }
-else{
+else {
     echo json_encode(
         array("message" => "No projects found.")	// This is how you send back an error message
     );
