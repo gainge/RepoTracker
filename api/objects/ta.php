@@ -72,6 +72,40 @@ class TA {
 		return $stmt;
 	}
 
+	public function update() {
+		$query = "UPDATE " . $this->table_name . "
+				SET
+					netid = :netid,
+					name = :name,
+					added_by_id = :added_by_id,
+					add_date = :add_date,
+					active = :active
+				WHERE
+					id = :id";
+
+		 // Prepare statement!
+		 $stmt = $this->conn->prepare($query);
+
+		// Sanitize
+ 		$this->id = htmlspecialchars(strip_tags($this->id));
+ 		$this->netid = htmlspecialchars(strip_tags($this->netid));
+ 		$this->name = htmlspecialchars(strip_tags($this->name));
+ 		$this->added_by_id = htmlspecialchars(strip_tags($this->added_by_id));
+ 		$this->add_date = htmlspecialchars(strip_tags($this->add_date));
+ 		$this->active = htmlspecialchars(strip_tags($this->active));
+
+		// bind the data
+		$stmt->bindParam(":id", $this->id);
+		$stmt->bindParam(":netid", $this->netid);
+		$stmt->bindParam(":name", $this->name);
+		$stmt->bindParam(":added_by_id", $this->added_by_id);
+		$stmt->bindParam(":add_date", $this->add_date);
+		$stmt->bindParam(":active", $this->active);
+
+		// Return the result
+		return $stmt->execute();
+	}
+
 
 
 
