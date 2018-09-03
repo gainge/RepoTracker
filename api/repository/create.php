@@ -18,7 +18,6 @@ $db = $database->getConnection();
 $repository = new Repository($db);
 
 // Get posted data
-// get posted data
 $data = json_decode(file_get_contents("php://input"));
 
 // Set repository property values
