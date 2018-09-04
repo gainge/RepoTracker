@@ -29,6 +29,9 @@ header("Access-Control-Allow-Origin: *");
 
 		<div class="" id="temp-body">
 			<p>Hey there, space cowboy!</p>
+			<a href="#">Click me if you dare!</a>
+			<br>
+			<a href="#broke">This should break the page</a>
 		</div>
 
 
