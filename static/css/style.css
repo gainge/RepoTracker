@@ -1,4 +1,25 @@
 
+body {
+	background: #f8f9fa;
+}
+
+::selection {
+  background: #F7D640; /* WebKit/Blink Browsers */
+}
+::-moz-selection {
+  background: #F7D640; /* Gecko Browsers */
+}
+
+/*
+Some cool colors
+	002255
+	D1495B
+	EDAE49
+	00798C
+	30638E
+
+
+*/
 
 .visible {
 	visibility: visible;
@@ -8,3 +29,185 @@
 	visibility: hidden;
 	display: none;
 }
+
+#nav {
+	background: #F3F5FD;
+}
+
+#site-header {
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
+}
+
+#projects {
+	margin-top: 1.5rem;
+}
+
+#project-container {
+	margin-top: 1rem;
+	margin-left: 3rem;
+	margin-right: 3rem;
+	width: auto;
+}
+
+#projects-body {
+	border: 1px solid #50596c;
+	padding-left: 0.4rem;
+	padding-right: 0.4rem;
+	/* padding-top: 0.4rem; */
+}
+
+#add-project {
+	display: inline-block;
+	float: right;
+}
+
+/* TEMP TEMP TEMP TEMP */
+/* #project-container {
+	visibility: hidden;
+	display: none;
+} */
+/* TEMP TEMP TEMP TEMP */
+
+
+#repos-container {
+	margin-top: 1rem;
+}
+
+.column {
+	margin-left: 0;
+	margin-right: 0;
+	width: 100%;
+}
+
+
+
+
+
+.btn-accent {
+	border-color: #EDAE49;
+	background-color: #EDAE49;
+	color: #fff;
+}
+
+.btn-accent:hover {
+	/* border-color: #f2c67f; */
+	border-color: #EDAE49;
+	background-color: #fff;
+	color: #EDAE49;
+}
+
+.btn-accent:focus {
+	border-color: #f2c67f;
+	background-color: #f2c67f;
+	color: #fff;
+}
+
+
+
+
+.page-header div {
+	display: inline-block;
+}
+
+.project {
+	padding: 0.3rem;
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+	/* border-bottom: 1px solid #50596c; */
+}
+
+.project:hover {
+	background: #f0f1f4;
+}
+
+.project a {
+	color: inherit !important;
+}
+
+.project .tile-subtitle {
+	margin-bottom: 0;
+}
+
+
+.gib_breadcrumb {
+  list-style: none;
+  overflow: hidden;
+  font: 18px Helvetica, Arial, Sans-Serif;
+  /* margin: 40px; */
+  margin: 0 !important;
+  width: 100%;
+  background: #F3F5FD;
+  border-top: 1px solid #acb3c2;
+  border-bottom: 1px solid #acb3c2;
+  padding: 0;
+}
+.gib_breadcrumb li {
+  float: left;
+  margin-top: 0.0rem;
+}
+.gib_breadcrumb li a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 0 10px 55px;
+  background: magenta; /* fallback color */
+  background: hsla(216, 100%, 17%,1);
+  position: relative;
+  display: block;
+  float: left;
+}
+.gib_breadcrumb li a:after {
+  content: " ";
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 50px solid transparent;           /* Go big on the size, and let overflow hide */
+  border-bottom: 50px solid transparent;
+  border-left: 30px solid hsla(216, 100%, 17%,1);
+  position: absolute;
+  top: 50%;
+  margin-top: -50px;
+  left: 100%;
+  z-index: 2;
+}
+.gib_breadcrumb li a:before {
+  content: " ";
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 50px solid transparent;           /* Go big on the size, and let overflow hide */
+  border-bottom: 50px solid transparent;
+  border-left: 30px solid white;
+  position: absolute;
+  top: 50%;
+  margin-top: -50px;
+  margin-left: 1px;
+  left: 100%;
+  z-index: 1;
+}
+.gib_breadcrumb li:first-child a {
+  padding-left: 10px;
+}
+.gib_breadcrumb li:nth-child(2) a       { background:        hsla(215, 40%, 33%,1); }
+.gib_breadcrumb li:nth-child(2) a:after { border-left-color: hsla(215, 40%, 33%,1); }
+.gib_breadcrumb li:nth-child(3) a       { background:        hsla(216, 20%, 50%,1); }
+.gib_breadcrumb li:nth-child(3) a:after { border-left-color: hsla(216, 20%, 50%,1); }
+.gib_breadcrumb li:nth-child(4) a       { background:        hsla(241, 63%, 75%,1); }
+.gib_breadcrumb li:nth-child(4) a:after { border-left-color: hsla(241, 63%, 75%,1); }
+.gib_breadcrumb li:last-child a       { background:        hsla(216, 20%, 50%,1) !important; }
+.gib_breadcrumb li:last-child a:after { border-left-color: hsla(216, 20%, 50%,1) !important; }
+/* .gib_breadcrumb li:last-child a {
+  background: transparent !important;
+  color: black;
+  pointer-events: none;
+  cursor: default;
+} */
+/* .gib_breadcrumb li:last-child a:after { border: 0; } */
+.gib_breadcrumb li a:hover {
+	background: hsla(220, 15%, 74%,1) !important;
+	color: #002255;
+}
+.gib_breadcrumb li a:hover:after {
+	border-left-color: hsla(220, 15%, 74%,1) !important;
+}
+
