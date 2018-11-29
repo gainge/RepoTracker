@@ -103,6 +103,11 @@ Some cool colors
 	color: #fff;
 }
 
+.btn-edit {
+	/* I Literally have no idea why this is happening... */
+	margin-right: 0.2rem !important;
+}
+
 
 
 

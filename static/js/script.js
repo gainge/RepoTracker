@@ -2,6 +2,7 @@
 
 // Store some cool variables or w/e
 var addressBase = "";
+var activeView = "#projects"
 
 
 
@@ -18,6 +19,9 @@ $(function() {
 	function resetData() {
 		// Reset w/e we'll be using in the app.
 	}
+
+	// Load projects page by default
+	getData("/api/project/read.php", renderProjectsPage);
 
 
 
@@ -51,6 +55,7 @@ $(function() {
 				// This is where we'd probably have to pass the project ID into the has as a key-value pair
 
 				// Then eventually load the data and swap the views.
+				alert("You're looking for the repos for project #" + url.split('/')[1]);
             },
 
 		};
@@ -69,7 +74,53 @@ $(function() {
 
 	function renderProjectsPage(data) {
 		console.log(data);
-		alert("I think I got the data!");
+
+		$("#projects-body").empty();
+
+		var project_html = "";
+
+		$.each(data.records, function(index, project) {
+			// Create some datapoints
+			var project_repo = project.link || "#err";
+			var project_name = project.name;
+			var project_detail = "#repositories/" + project.id;
+			var project_description = project.description || "No description available";
+			var edit_action = "";
+			var remove_action = "";
+
+			console.log(project_name);
+
+			// Fill 'er up
+			project_html += "" +
+				"<div class='columns project'>" +
+					"<div class='column col-10 col-mx-auto'>" +
+						"<div class='tile'>" +
+							"<div class='tile-icon'>" +
+								"<div class=''>" +
+									"<button class='btn btn-action' onclick='window.location.href=" + project_repo + "'><i class='icon icon-share'></i></button>" +
+								"</div>" +
+							"</div>" +
+							"<div class='tile-content'>" +
+								"<h4 class='tile-title'><a href='" + project_detail + "'>" + project_name + "</a></h4>" +
+								"<hr>" +
+								"<p class='tile-subtitle'>" + project_description + "</p>" +
+							"</div>" +
+							"<div class='tile-action'>" +
+								"<button class='btn btn-edit btn-primary' onclick='showEditModal()'>Edit</button>" +
+								"<button class='btn btn-secondary btn-error' onclick='showRemoveModal()'>Remove</button>" +
+							"</div>" +
+						"</div>" +
+					"</div>" +
+				"</div>";
+
+				// onclick='window.location.href=" + project_repo + "'
+				// onclick='showEditModal()'
+				// onclick='showRemoveModal()'
+
+		});
+
+		$("#projects-body").append(project_html);
+
 	}
 
 
@@ -81,11 +132,29 @@ $(function() {
 		alert("You broke something you dummy!");
     }
 
-
-
-
-
 });
+
+
+function showEditModal() {
+	console.log("Modals will be here eventually!");
+}
+
+function showRemoveModal() {
+	console.log("Modals will be here eventually!");
+}
+
+
+function toggleView(input)
+{
+	if(activeView != input)
+	{
+		$(activeView).fadeOut(500, function()
+		{
+			$(input).fadeIn(500);
+			activeView = input;
+		});
+	}
+}
 
 
 
