@@ -54,11 +54,18 @@ class Project {
 
 	public function create() {
 		$query = "INSERT INTO " . $this->table_name . "
-			SET
-				id=:id, name=:name, submission_date=:submission_date, description=:description";
+				(id, name, submission_date, description)
+			VALUES (
+				:id, :name, :submission_date, :description)";
 
 		// Prepare query
 		$stmt = $this->conn->prepare($query);
+
+		if (!$stmt) {
+			echo "\nPDO::errorInfo():\n";
+    		print_r($this->conn->errorInfo());
+			return false;
+		}
 
 		// Sanitize the input I guess
 		$this->id = htmlspecialchars(strip_tags($this->id));
@@ -72,7 +79,13 @@ class Project {
 		$stmt->bindParam(":submission_date", $this->submission_date);
 		$stmt->bindParam(":description", $this->description);
 
-		// Execute!
+		if (!$stmt->execute()) {
+			print_r($stmt->errorInfo());
+			return false;
+		} else {
+			return true;
+		}
+
 		return $stmt->execute();	// Boolean value
 	}
 
