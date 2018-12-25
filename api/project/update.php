@@ -17,16 +17,11 @@ $db = $database->getConnection();
 // Initialize a project object with our connection
 $project = new Project($db);
 
-// get id of project to be edited
-$data = json_decode(file_get_contents("php://input"));
-
-// Set the id in our target model
-$project->id = $data->id;
-
-// Set the new values in our model object
-$project->name = $data->name;
-$project->submission_date = $data->submission_date;
-$project->description = $data->description;
+// Set project property values
+$project->id = isset($_POST['id']) ? $_POST['id'] : null;
+$project->name = isset($_POST['name']) ? $_POST['name'] : null;
+$project->submission_date = isset($_POST['submission_date']) ? $_POST['submission_date'] : null;
+$project->description = isset($_POST['description']) ? $_POST['description'] : null;
 
 // Then, let our model BOII do the work
 if ($project->update()) {
