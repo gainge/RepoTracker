@@ -15,14 +15,12 @@ $db = $database->getConnection();
 
 $ta = new TA($db);
 
-// Get posted data
-$data = json_decode(file_get_contents("php://input"));
-$ta->id = $data->id;
-$ta->netid = $data->netid;
-$ta->name = $data->name;
-$ta->added_by_id = $data->added_by_id;
-$ta->add_date = $data->add_date;
-$ta->active = $data->active;
+$ta->id = isset($_POST['id']) ? $_POST['id'] : null;
+$ta->netid = isset($_POST['netid']) ? $_POST['netid'] : null;
+$ta->name = isset($_POST['name']) ? $_POST['name'] : null;
+$ta->added_by_id = isset($_POST['added_by_id']) ? $_POST['added_by_id'] : null;
+$ta->add_date = isset($_POST['add_date']) ? $_POST['add_date'] : null;
+$ta->active = isset($_POST['active']) ? $_POST['active'] : null;
 
 // Create the TA!
 if ($ta->create()) {

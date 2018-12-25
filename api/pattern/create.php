@@ -15,18 +15,15 @@ $db = $database->getConnection();
 
 $pattern = new Pattern($db);
 
-// Get posted data
-$data = json_decode(file_get_contents("php://input"));
-
 // Set object properties
-$pattern->id = $data->id;
-$pattern->body = $data->body;
-$pattern->repository_id = $data->repository_id;
-$pattern->project_id = $data->project_id;
-$pattern->file_name = $data->file_name;
-$pattern->submission_date = $data->submission_date;
-$pattern->ta_id = $data->ta_id;
-$pattern->active = $data->active;
+$pattern->id = ;isset($_POST['id']) ? $_POST['id'] : null;
+$pattern->body = isset($_POST['body']) ? $_POST['body'] : null;
+$pattern->repository_id = isset($_POST['repository_id']) ? $_POST['repository_id'] : null;
+$pattern->project_id = isset($_POST['project_id']) ? $_POST['project_id'] : null;
+$pattern->file_name = isset($_POST['file_name']) ? $_POST['file_name'] : null;
+$pattern->submission_date = isset($_POST['submission_date']) ? $_POST['submission_date'] : null;
+$pattern->ta_id = isset($_POST['ta_id']) ? $_POST['ta_id'] : null;
+$pattern->active = isset($_POST['active']) ? $_POST['active'] : null;
 
 // Create the dang thing
 if ($pattern->create()) {

@@ -17,16 +17,13 @@ $db = $database->getConnection();
 
 $repository = new Repository($db);
 
-// Get posted data
-$data = json_decode(file_get_contents("php://input"));
-
 // Set repository property values
-$repository->id = $data->id;
-$repository->link = $data->link;
-$repository->submission_date = $data->submission_date;
-$repository->ta_id = $data->ta_id;
-$repository->project_id = $data->project_id;
-$repository->active = $data->active;
+$repository->id = isset($_POST['id']) ? $_POST['id'] : null;
+$repository->link = isset($_POST['link']) ? $_POST['link'] : null;
+$repository->submission_date = isset($_POST['submission_date']) ? $_POST['submission_date'] : null;
+$repository->ta_id = isset($_POST['ta_id']) ? $_POST['ta_id'] : null;
+$repository->project_id = isset($_POST['project_id']) ? $_POST['project_id'] : null;
+$repository->active = isset($_POST['active']) ? $_POST['active'] : null;
 
 // Create the repository
 if ($repository->create()) {

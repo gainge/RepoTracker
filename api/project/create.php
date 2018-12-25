@@ -17,14 +17,11 @@ $db = $database->getConnection();
 
 $project = new Project($db);
 
-// Get posted data
-$data = json_decode(file_get_contents("php://input"));
-
 // Set project property values
-$project->id = $data->id;
-$project->name = $data->name;
-$project->submission_date = $data->submission_date;
-$project->description = $data->description;
+$project->id = isset($_POST['id']) ? $_POST['id'] : null;
+$project->name = isset($_POST['name']) ? $_POST['name'] : null;
+$project->submission_date = isset($_POST['submission_date']) ? $_POST['submission_date'] : null;
+$project->description = isset($_POST['description']) ? $_POST['description'] : null;
 
 // Create the project
 if ($project->create()) {
