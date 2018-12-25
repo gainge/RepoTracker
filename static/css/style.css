@@ -43,14 +43,16 @@ Some cool colors
 	margin-top: 1.5rem;
 }
 
-#project-container {
+#projects,
+#repositories {
 	margin-top: 1rem;
 	margin-left: 3rem;
 	margin-right: 3rem;
 	width: auto;
 }
 
-#projects-body {
+#projects-body,
+#repos-body {
 	border: 1px solid #50596c;
 	padding-left: 0.4rem;
 	padding-right: 0.4rem;
@@ -73,6 +75,28 @@ Some cool colors
 #repos-container {
 	margin-top: 1rem;
 }
+
+
+.add-btn {
+	display: inline-block;
+	float: right;
+}
+
+
+.gib-contaner {
+	margin-top: 1rem;
+	margin-left: 3rem;
+	margin-right: 3rem;
+	width: auto;
+}
+
+.gib-body {
+	border: 1px solid #50596c;
+	padding-left: 0.4rem;
+	padding-right: 0.4rem;
+	/* padding-top: 0.4rem; */
+}
+
 
 .column {
 	margin-left: 0;
@@ -101,11 +125,6 @@ Some cool colors
 	border-color: #f2c67f;
 	background-color: #f2c67f;
 	color: #fff;
-}
-
-.btn-edit {
-	/* I Literally have no idea why this is happening... */
-	margin-right: 0.2rem !important;
 }
 
 

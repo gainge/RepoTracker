@@ -6,7 +6,7 @@ header("Access-Control-Allow-Origin: *");
 <!--
 
 Todo:
-	-Add repo links to db
+	-Add repo links to db (?)
 	-Make breadcrumbs dynamic
 	-Add modals to all cool buttons on projects page
 	-Actually be able to add projects using the cool yellow button
@@ -58,18 +58,20 @@ Todo:
 		</div>
 
 		<ul class="gib_breadcrumb">
-			<li><a href="#">Projects</a></li>
-			<li><a href="#">Repos</a></li>
-			<li><a href="#">Code</a></li>
+			<li class='' id='bread1'><a href="#projects">Projects</a></li>
+			<li class='invisible' id='bread2'><a href="#">Repos</a></li>
+			<li class='invisible' id='bread3'><a href="#">Code</a></li>
 		</ul>
 
-		<div class="container" id="project-container">
+
+		<!-- Projects -->
+		<div class="container" id="projects">
 			<div class="page-header">
 				<div class="">
 					<h3>Projects</h3>
 				</div>
-				<div class="" id="add-project">
-					<button class="btn btn-accent"><i class="icon icon-plus"></i></button>
+				<div class="add-btn">
+					<button id="add-project" class="btn btn-accent"><i class="icon icon-plus"></i></button>
 				</div>
 				<!-- <div class="columns">
 
@@ -85,6 +87,65 @@ Todo:
 			<br>
 			<br>
 
+		</div>
+
+
+
+		<!-- Repositories -->
+		<div class="container" id="repositories">
+
+			<div class="page-header">
+				<div class="">
+					<h3>Repositories</h3>
+				</div>
+				<div class="add-btn">
+					<button class="btn btn-accent"><i class="icon icon-plus"></i></button>
+				</div>
+			</div>
+			<div id="repos-body">
+				<div class="columns project">
+					<div class="column col-10 col-mx-auto">
+						<div class="tile tile-centered">
+							<div class="tile-icon">
+								<div class="">
+									<button class="btn btn-action"><i class="icon icon-share"></i></button>
+								</div>
+							</div>
+							<div class="tile-content">
+								<div class="tile-title">spectre-docs.pdf</div>
+								<div class="tile-subtitle text-gray">14MB · Public · 1 Jan, 2017</div>
+							</div>
+							<div class="tile-action">
+								<button class="btn btn-link">
+									<!-- <i class="icon icon-more-vert"></i> -->
+									<button class="btn btn-primary">Edit</button>
+									<button class="btn btn-error btn-secondary">Remove</button>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<br>
+			<br>
+		</div>
+
+		<div class="modal modal-sm" id="modal-id">
+			<!-- <a href="#close" class="modal-overlay" aria-label="Close"></a> -->
+			<div class="modal-container">
+				<div class="modal-header">
+					<a href="#" class="btn btn-clear float-right" aria-label="Close"></a>
+					<div class="modal-title h5">Modal title</div>
+				</div>
+				<div class="modal-body">
+					<div class="content">
+						<!-- content here -->
+					</div>
+				</div>
+				<div class="modal-footer">
+				</div>
+			</div>
 		</div>
 
 
