@@ -16,7 +16,7 @@ $db = $database->getConnection();
 $pattern = new Pattern($db);
 
 // Set object properties
-$pattern->id = ;isset($_POST['id']) ? $_POST['id'] : null;
+$pattern->id = isset($_POST['id']) ? $_POST['id'] : null;
 $pattern->body = isset($_POST['body']) ? $_POST['body'] : null;
 $pattern->repository_id = isset($_POST['repository_id']) ? $_POST['repository_id'] : null;
 $pattern->project_id = isset($_POST['project_id']) ? $_POST['project_id'] : null;
