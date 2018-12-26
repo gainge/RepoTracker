@@ -21,15 +21,9 @@ class Pattern {
 
 	public function create() {
 		$query = "INSERT INTO " . $this->table_name . "
-			SET
-				id = :id,
-				body = :body,
-				repository_id = :repository_id,
-				project_id = :project_id,
-				file_name = :file_name,
-				submission_date = :submission_date,
-				ta_id = :ta_id,
-				active = :active";
+				(id, body, repository_id, project_id, file_name, submission_date, ta_id, active)
+			VALUES (
+				:id, :body, :repository_id, :project_id, :file_name, :submission_date, :ta_id, :active)";
 
 		// Prepare query
 		$stmt = $this->conn->prepare($query);

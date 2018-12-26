@@ -36,13 +36,9 @@ class Repository {
 
 	public function create() {
 		$query = "INSERT INTO " . $this->table_name . "
-			SET
-				id = :id,
-				link = :link,
-				submission_date = :submission_date,
-				ta_id = :ta_id,
-				project_id = :project_id,
-				active = :active";
+				(id, link, submission_date, ta_id, project_id, active)
+			VALUES (
+				:id, :link, :submission_date, :ta_id, :project_id, :active)";
 
 		// Prepare dat yung query
 		$stmt = $this->conn->prepare($query);

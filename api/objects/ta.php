@@ -19,13 +19,9 @@ class TA {
 
 	public function create() {
 		$query = "INSERT INTO " . $this->table_name . "
-			SET
-				id = :id,
-				netid = :netid,
-				name = :name,
-				added_by_id = :added_by_id,
-				add_date = :add_date,
-				active = :active";
+				(id, netid, name, added_by_id, add_date, active)
+			VALUES (
+				:id, :netid, :name, :added_by_id, :add_date, :active)";
 
 		// Prepare query
 		$stmt = $this->conn->prepare($query);
