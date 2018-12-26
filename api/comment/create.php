@@ -15,14 +15,11 @@ $db = $database->getConnection();
 
 $comment = new Comment($db);
 
-// Get posted data
-$data = json_decode(file_get_contents("php://input"));
-
-$comment->id = $data->id;
-$comment->body = $data->body;
-$comment->pattern_id = $data->pattern_id;
-$comment->ta_id = $data->ta_id;
-$comment->submission_date = $data->submission_date;
+$comment->id = isset($_POST['id']) ? $_POST['id'] : null;
+$comment->body = isset($_POST['body']) ? $_POST['body'] : null;
+$comment->pattern_id = isset($_POST['pattern_id']) ? $_POST['pattern_id'] : null;
+$comment->ta_id = isset($_POST['ta_id']) ? $_POST['ta_id'] : null;
+$comment->submission_date = isset($_POST['submission_date']) ? $_POST['submission_date'] : null;
 
 // Create the entry!
 if ($comment->create()) {

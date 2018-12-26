@@ -15,10 +15,7 @@ $db = $database->getConnection();
 
 $comment = new Comment($db);
 
-// Get posted data
-$data = json_decode(file_get_contents("php://input"));
-
-$comment->id = $data->id;
+$comment->id = isset($_POST['id']) ? $_POST['id'] : null;
 
 // You won't, you won't
 if ($repository->delete()) {

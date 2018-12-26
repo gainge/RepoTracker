@@ -18,12 +18,9 @@ class Comment {
 
 	public function create() {
 		$query = "INSERT INTO " . $this->table_name . "
-			SET
-				id = :id,
-				body = :body,
-				pattern_id = :pattern_id,
-				ta_id = :ta_id,
-				submission_date = :submission_date";
+				(id, body, pattern_id, ta_id, submission_date)
+			VALUES (
+				:id, :body, :pattern_id, :ta_id, :submission_date)";
 
 		// Prepare the queryyyyy boiiii
 		$stmt = $this->conn->prepare($query);
