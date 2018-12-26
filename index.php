@@ -73,16 +73,11 @@ Todo:
 				<div class="add-btn">
 					<button id="add-project" class="btn btn-accent"><i class="icon icon-plus"></i></button>
 				</div>
-				<!-- <div class="columns">
-
-				</div> -->
 			</div>
 
 			<div id="projects-body">
 				<!-- Content pulled from server goes here -->
-
 			</div>
-
 
 			<br>
 			<br>
@@ -93,57 +88,73 @@ Todo:
 
 		<!-- Repositories -->
 		<div class="container" id="repositories">
-
 			<div class="page-header">
 				<div class="">
 					<h3>Repositories</h3>
 				</div>
 				<div class="add-btn">
-					<button class="btn btn-accent"><i class="icon icon-plus"></i></button>
+					<button id="add-repository" class="btn btn-accent"><i class="icon icon-plus"></i></button>
 				</div>
 			</div>
 			<div id="repos-body">
-				<div class="columns project">
-					<div class="column col-10 col-mx-auto">
-						<div class="tile tile-centered">
-							<div class="tile-icon">
-								<div class="">
-									<button class="btn btn-action"><i class="icon icon-share"></i></button>
-								</div>
-							</div>
-							<div class="tile-content">
-								<div class="tile-title">spectre-docs.pdf</div>
-								<div class="tile-subtitle text-gray">14MB · Public · 1 Jan, 2017</div>
-							</div>
-							<div class="tile-action">
-								<button class="btn btn-link">
-									<!-- <i class="icon icon-more-vert"></i> -->
-									<button class="btn btn-primary">Edit</button>
-									<button class="btn btn-error btn-secondary">Remove</button>
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
+
 			</div>
 
 			<br>
 			<br>
 		</div>
 
-		<div class="modal modal-sm" id="modal-id">
-			<!-- <a href="#close" class="modal-overlay" aria-label="Close"></a> -->
+		<!-- Add project Modal -->
+		<div class="modal modal-sm" id="modal-add-project">
+			<p class="modal-overlay modal-close" style="cursor: pointer;" aria-label="Close"></p>
 			<div class="modal-container">
-				<div class="modal-header">
-					<a href="#" class="btn btn-clear float-right" aria-label="Close"></a>
-					<div class="modal-title h5">Modal title</div>
+				<div class="modal-header" style="padding-bottom: 0rem;">
+					<p class="btn btn-clear float-right modal-close" style="cursor: pointer;" aria-label="Close" ></p>
+					<div class="modal-title h5">Add Project</div>
+					<hr>
 				</div>
 				<div class="modal-body">
 					<div class="content">
 						<!-- content here -->
+						<div class="form-group">
+							<label class="form-label" for="project-name">Name</label>
+							<input class="form-input required" id="project-name" type="text" placeholder="Name">
+						</div>
+						<div class="form-group">
+							<label class="form-label" for="project-description">Description (optional)</label>
+							<textarea class="form-input" id="project-description" type="text" placeholder="Description"></textarea>
+						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
+					<button class="btn btn-primary" id="submit-add-project">Submit</button>
+					<a class="btn btn-link modal-close" style="cursor: pointer;" aria-label="Close">Close</a>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Add Repository Modal -->
+		<div class="modal modal-sm" id="modal-add-repository">
+			<p class="modal-overlay modal-close" style="cursor: pointer;" aria-label="Close"></p>
+			<div class="modal-container">
+				<div class="modal-header" style="padding-bottom: 0rem;">
+					<p class="btn btn-clear float-right modal-close" style="cursor: pointer;" aria-label="Close" ></p>
+					<div class="modal-title h5">Add Repository</div>
+					<hr>
+				</div>
+				<div class="modal-body">
+					<div class="content">
+						<!-- content here -->
+						<div class="form-group">
+							<label class="form-label" for="repository-link">Link</label>
+							<input class="form-input required" id="repository-link" type="text" placeholder="Description"></input>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" id="submit-add-repository">Submit</button>
+					<a class="btn btn-link modal-close" style="cursor: pointer;" aria-label="Close">Close</a>
 				</div>
 			</div>
 		</div>
@@ -151,12 +162,12 @@ Todo:
 
 
 
-		<div class="" id="temp-body">
+		<!-- <div class="" id="temp-body">
 			<p id="test-click">Hey there, space cowboy!</p>
 			<a href="#">Click me if you dare!</a>
 			<br>
 			<a href="#broke">This should break the page</a>
-		</div>
+		</div> -->
 
 
 

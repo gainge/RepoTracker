@@ -15,6 +15,10 @@ var breadcrumbComponents = {
 	"#file":3,
 	"#files":3
 };
+var projects;
+var repositories;
+
+var ta_id = 1;	// Temporary, until we get CAS set up.
 
 
 
@@ -44,98 +48,219 @@ $(function() {
         render(currentURL);
     });
 
-
-	function resetData() {
-		// Reset w/e we'll be using in the app.
-	}
-
 	// Load projects page by default
 	// getData("/api/project/read.php", renderProjectsPage);
 	// breadcrumb("#");
 
-
-
-	function render(url) {
-        // This function decides what type of page to show
-        // depending on the current url hash value.
-		console.log(url);
-		currentURL = window.location.hash;
-
-		// Get the keyword from the url.
-        var hashBase = url.split('/')[0];
-
-        // Hide whatever page is currently shown.
-        $('.main-content .page').removeClass('visible');	// I'll probably have to change this
-
-		// This is a map to hold our transition functions
-		var map = {
-			// The Homepage.
-            '': function() {
-				window.location.href = homepage;
-            },
-
-			'#': function() {
-				window.location.href = homepage;
-            },
-
-			'#projects': function() {
-				// Reset any data that we might need
-				resetData();
-
-				// Ah, this is where we'll have to do an ajax call, I guess
-				getData("/api/project/read.php", renderProjectsPage);
-			},
-
-			// Repositories for project page
-            '#repositories': function() {
-				project_id = url.split('/')[1];
-
-				if (!project_id) {
-					alert("Invalid Project ID!");
-					window.location.href = homepage;
-				} else {
-					getData('/api/repository/read_by_project.php?project_id=' + project_id, renderReposPage);
-				}
-
-				// http://localhost:8000/api/repository/read_by_project.php?project_id=2
-
-
-
-				// This is where we'd probably have to pass the project ID into the has as a key-value pair
-
-				// Then eventually load the data and swap the views.
-				// alert("You're looking for the repos for project #" + url.split('/')[1]);
-            },
-
-		};
-
-		// Then we have to execute the stuff
-		// Execute the needed function depending on the url keyword (stored in temp).
-        if(map[hashBase]){
-            map[hashBase]();
-			toggleView(hashBase);
-			breadcrumb(hashBase);
-        }
-        // If the keyword isn't listed in the above - render the error page.
-        else {
-            renderErrorPage();
-        }
-    }
-
-
-
-
 	// Set up some click listeners or something?
-	$("#add-project").click(function() {
-		alert("Time to add a new project, eh?");
-	});
+	wireModals();
 
 	render(decodeURI(window.location.hash));
-	// if (window.location.hash != homepage) {
-	// 	window.location.hash = homepage;
-	// }
 
 });
+
+function resetData() {
+	// Reset w/e we'll be using in the app.
+}
+
+function render(url) {
+	// This function decides what type of page to show
+	// depending on the current url hash value.
+	console.log(url);
+	currentURL = window.location.hash;
+
+	// Get the keyword from the url.
+	var hashBase = url.split('/')[0];
+
+	// Hide whatever page is currently shown.
+	$('.main-content .page').removeClass('visible');	// I'll probably have to change this
+
+	// This is a map to hold our transition functions
+	var map = {
+		// The Homepage.
+		'': function() {
+			window.location.href = homepage;
+		},
+
+		'#': function() {
+			window.location.href = homepage;
+		},
+
+		'#projects': function() {
+			// Reset any data that we might need
+			resetData();
+
+			// Ah, this is where we'll have to do an ajax call, I guess
+			getData("/api/project/read.php", renderProjectsPage);
+		},
+
+		// Repositories for project page
+		'#repositories': function() {
+			project_id = url.split('/')[1];
+
+			if (!project_id) {
+				alert("Invalid Project ID!");
+				window.location.href = homepage;
+			} else {
+				getData('/api/repository/read_by_project.php?project_id=' + project_id, renderReposPage);
+			}
+
+			// http://localhost:8000/api/repository/read_by_project.php?project_id=2
+
+
+
+			// This is where we'd probably have to pass the project ID into the has as a key-value pair
+		},
+
+	};
+
+	// Then we have to execute the stuff
+	// Execute the needed function depending on the url keyword (stored in temp).
+	if(map[hashBase]){
+		map[hashBase]();
+		toggleView(hashBase);
+		breadcrumb(hashBase);
+	}
+	// If the keyword isn't listed in the above - render the error page.
+	else {
+		renderErrorPage();
+	}
+}
+
+function wireModals() {
+	/* Projects */
+	wireProjectModals();
+
+	/* Repositories */
+	wireRepositoryModals();
+
+	// General, for all modals
+	$(".modal-close").click(closeModal);
+}
+
+function modalSuccess(data) {
+	console.log(data);
+	closeModal();
+	reloadCurrentPage();
+}
+
+function modalError(operation, objectType) {
+	return function(data) {
+		console.log(data);
+		alert("Failed to " + operation + " " + objectType + "!");
+		closeModal();
+	}
+}
+
+// Unfortunately all this stuff tends to have duplicated code...
+// I'll find a way to fix it though, definitely
+function wireProjectModals() {
+	// Add
+	$("#add-project").click(function() {
+		$("#modal-add-project").addClass("active");
+		validateRequiredFields("add", "project");
+	});
+
+	$("#project-name").on('input', function() {
+		// $("#submit-add-project").prop("disabled", $("#project-name").val());
+		validateRequiredFields("add", "project");
+	});
+
+	$("#submit-add-project").click(function() {
+		// Build our object
+		var data = {
+			id: uuid(),
+			name: $("#project-name").val(),
+			description: $("#project-description").val(),
+			submission_date: getTime(),
+		};
+
+		console.log(data);
+
+		postData(data, "/api/project/create.php", modalSuccess, modalError("add", "project"));
+	});
+}
+
+
+function wireRepositoryModals() {
+	// Allow the button to display the modal
+	$("#add-repository").click(function() {
+		console.log("Clicked add repo!!");
+		$("#modal-add-repository").addClass("active");
+		validateRequiredFields("add", "repository");
+	});
+
+	var validationHelper = function() {
+		validateRequiredFields("add", "repository");
+	}
+	$("#repository-link").on('input', validationHelper);
+
+
+	$("#submit-add-repository").click(function() {
+
+		var project_id = parseInt(decodeURI(window.location.hash).split('/')[1]);
+
+		// Build our object
+		var data = {
+			id: uuid(),
+			link: $("#repository-link").val(),
+			submission_date: getTime(),
+			ta_id: ta_id,
+			project_id: project_id,	// This is an assumption lol
+			active: 1
+		};
+
+		console.log(data);
+
+		// Define our callback methods
+		var success = function(data) {
+			console.log(data);
+			closeModal();
+			reloadCurrentPage();
+		};
+
+		var error = function(data) {
+			console.log(data);
+			alert("Failed to add repository!");
+			closeModal();
+		};
+
+		postData(data, "/api/repository/create.php", modalSuccess, modalError("add", "repository"));
+	});
+
+}
+
+
+function closeModal() {
+	if (true || confirm("Close without submitting?")) {
+		$(".modal").removeClass("active");
+		$(".modal").find(".form-input").val("");	// Clear what's stored inside?
+	}
+}
+
+function validateRequiredFields(action, modalName) {
+	console.log("Validating Fields for Modal: " + modalName + " (" + action + ")");
+	var submitButtonID = "#submit-" + action + "-" + modalName;
+	var modalID = "#modal-" + action + "-" + modalName;
+
+	var fieldsAreValid = true;
+
+	// Loop over the children
+	$(modalID).find(".required").each(function(i, child) {
+		fieldsAreValid = fieldsAreValid && !$(this).val();	// Make sure actual text is entered
+	});
+
+	// Update our button's enabled/disabled prop
+	$(submitButtonID).prop("disabled", fieldsAreValid);
+}
+
+function uuid() {
+	return Math.floor(Math.random() * 0x100000);
+}
+
+function getTime() {
+	return new Date().getTime() / 1000;
+}
 
 
 function isHomepage(url) {
@@ -158,14 +283,22 @@ function breadcrumb(pageRoot) {
 };
 
 
+
+function reloadCurrentPage() {
+	console.log("Data is out of date, reloading current page");
+	render(decodeURI(window.location.hash));
+}
+
 function renderReposPage(data) {
 	console.log(data);
+	repositories = data.records;
 
 	$("#repos-body").empty();
 
 	// Read in the data
-	$.each(data.records, function(index, repo) {
+	$.each(repositories, function(index, repo) {
 		var repo_submission_date = new Date(repo.submission_date * 1000);
+		var repo_id = repo.id;
 		var repo_url = repo.link;
 		var repo_split = repo_url.split('/');
 		var repo_description = repo_split[3] + ": " + repo_split[4];
@@ -191,7 +324,7 @@ function renderReposPage(data) {
 					"<div class='tile-action'>" +
 						"<button class='btn btn-link'>" +
 						"<button class='btn btn-edit btn-primary' style='margin-right: 0.2rem !important;' onclick='showEditModal()'>Edit</button>" +
-						"<button class='btn btn-secondary btn-error' onclick='showRemoveModal()'>Remove</button>" +
+						"<button class='btn btn-secondary btn-error' onclick='removeObject(" + repo_id + ", \"repository\")'>Remove</button>" +
 						"</button>" +
 					"</div>" +
 				"</div>" +
@@ -204,10 +337,11 @@ function renderReposPage(data) {
 
 function renderProjectsPage(data) {
 	console.log(data);
+	projects = data.records;
 
 	$("#projects-body").empty();
 
-	$.each(data.records, function(index, project) {
+	$.each(projects, function(index, project) {
 		// Create some datapoints
 		var project_submission_date = new Date(project.submission_date * 1000);
 		var project_repo = project.link || "#err";
@@ -235,7 +369,7 @@ function renderProjectsPage(data) {
 						"</div>" +
 						"<div class='tile-action'>" +
 							"<button class='btn btn-edit btn-primary' style='margin-right: 0.2rem !important;' onclick='showEditModal()'>Edit</button>" +
-							"<button class='btn btn-secondary btn-error' onclick='removeModal(" + project_id + ")'>Remove</button>" +
+							"<button class='btn btn-secondary btn-error' onclick='removeObject(" + project_id + ", \"project\")'>Remove</button>" +
 						"</div>" +
 					"</div>" +
 				"</div>" +
@@ -250,6 +384,8 @@ function renderProjectsPage(data) {
 }
 
 
+
+
 function renderErrorPage(){
 	// Shows the error page.
 	alert("You broke something you dummy!");
@@ -260,17 +396,30 @@ function showEditModal() {
 	console.log("Modals will be here eventually!");
 }
 
-function showRemoveModal() {
-	console.log("Modals will be here eventually!");
-}
-
-function removeModal(id) {
+function removeObject(id, objectType) {
 	// I guess that we can just look at the current url to see what api to call
-	console.log(id);
-}
+	if (confirm("Are you sure you want to remove the " + objectType + "?")) {
+		// We need to remove the project!
+		data = {
+			id: id
+		};
 
-function addProjectModal() {
+		console.log(data);
 
+		// Define our callback methods
+		var success = function(data) {
+			console.log(data);
+			reloadCurrentPage();
+		};
+
+		var error = function(data) {
+			console.log(data);
+			alert("Failed to remove " + objectType + "!");
+		};
+
+		postData(data, "/api/" + objectType + "/delete.php", success, error);
+
+	}
 }
 
 
