@@ -15,11 +15,8 @@ $db = $database->getConnection();
 
 $pattern = new Pattern($db);
 
-// Get posted data
-$data = json_decode(file_get_contents("php://input"));
-
 // Set the ID of the pattern to be deleted
-$pattern->id = $data->id;
+$pattern->id = isset($_POST['id']) ? $_POST['id'] : null;
 
 // Kill it with fire
 if ($pattern->delete()) {

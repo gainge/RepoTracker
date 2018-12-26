@@ -17,11 +17,8 @@ $db = $database->getConnection();
 // Initialize a project object with our connection
 $project = new Project($db);
 
-// get id of project to be edited
-$data = json_decode(file_get_contents("php://input"));
-
 // Set the ID of the project to be deleted
-$project->id = $data->id;
+$project->id = isset($_POST['id']) ? $_POST['id'] : null;
 
 // Do the thing, Zhu-Li
 if ($project->delete()) {

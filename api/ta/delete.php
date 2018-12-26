@@ -15,10 +15,7 @@ $db = $database->getConnection();
 
 $ta = new TA($db);
 
-// Get the id of the target ta
-$data = json_decode(file_get_contents("php://input"));
-
-$ta->id = $data->id;
+$ta->id = isset($_POST['id']) ? $_POST['id'] : null;
 
 // Do the darn deletion!
 if ($ta->delete()) {
