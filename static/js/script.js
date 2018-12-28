@@ -179,6 +179,17 @@ function wireProjectModals() {
 
 		postData(data, "/api/project/create.php", modalSuccess, modalError("add", "project"));
 	});
+
+	// Edit
+	// Model opening is handled by individual edit buttons on the page
+
+	// Select all required fields
+	$("#modal-edit-project .required").on("input", function() {
+		validateRequiredFields("edit", "project");
+	});
+
+	$("#submit-edit-project").click(function() { alert("Not implemented!");});	// I hope that re-assigning this reference will work like I expect, lol
+
 }
 
 
@@ -259,7 +270,20 @@ function uuid() {
 }
 
 function getTime() {
-	return new Date().getTime() / 1000;
+	return Math.floor(new Date().getTime() / 1000);
+}
+
+function getProjectByID(id) {
+	var selectedProject = null;
+
+	$.each(projects, function(index, project) {
+		if (project.id == id) {
+			selectedProject = project;
+			return false;
+		}
+	});
+
+	return selectedProject;
 }
 
 
@@ -368,7 +392,7 @@ function renderProjectsPage(data) {
 							"<p class='tile-subtitle'>" + project_description + "</p>" +
 						"</div>" +
 						"<div class='tile-action'>" +
-							"<button class='btn btn-edit btn-primary' style='margin-right: 0.2rem !important;' onclick='showEditModal()'>Edit</button>" +
+							"<button class='btn btn-edit btn-primary' style='margin-right: 0.2rem !important;' onclick='editProject(" + project_id + " )'>Edit</button>" +
 							"<button class='btn btn-secondary btn-error' onclick='removeObject(" + project_id + ", \"project\")'>Remove</button>" +
 						"</div>" +
 					"</div>" +
@@ -395,6 +419,38 @@ function renderErrorPage(){
 function showEditModal() {
 	console.log("Modals will be here eventually!");
 }
+
+function editProject(id) {
+	console.log("Clicked edit project!!");
+
+	var selectedProject = getProjectByID(id);
+
+	// Populate the fields with our data!
+	$("#project-name-edit").val(selectedProject.name);
+	$("#project-description-edit").val(selectedProject.description);
+	$("#project-description-edit").val($("#project-description-edit").val().replace(/&quot;/g, "\""));	// TODO: make a method out of this to generalize lol
+	$("#project-description-edit").val($("#project-description-edit").val().replace(/&amp;/g, "&"));
+
+	// Override the click functionality
+	$("#submit-edit-project").off("click");
+	$("#submit-edit-project").click(function() {	// You know, it actually wouldn't even be that bad to just re-wire the click function right here...
+		// Build our object, ID and submission date remaining the same
+		var data = {
+			id: id,
+			name: $("#project-name-edit").val(),
+			description: $("#project-description-edit").val(),
+			submission_date: selectedProject.submission_date,
+		};
+
+		console.log(data);
+
+		postData(data, "/api/project/update.php", modalSuccess, modalError("edit", "project"));
+	});
+
+	// Finally, show the modal
+	$("#modal-edit-project").addClass("active");
+}
+
 
 function removeObject(id, objectType) {
 	// I guess that we can just look at the current url to see what api to call

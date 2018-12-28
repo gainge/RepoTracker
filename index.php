@@ -133,6 +133,35 @@ Todo:
 			</div>
 		</div>
 
+		<!-- Edit project modal -->
+		<div class="modal modal-sm" id="modal-edit-project">
+			<p class="modal-overlay modal-close" style="cursor: pointer;" aria-label="Close"></p>
+			<div class="modal-container">
+				<div class="modal-header" style="padding-bottom: 0rem;">
+					<p class="btn btn-clear float-right modal-close" style="cursor: pointer;" aria-label="Close" ></p>
+					<div class="modal-title h5">Edit Project</div>
+					<hr>
+				</div>
+				<div class="modal-body">
+					<div class="content">
+						<!-- content here -->
+						<div class="form-group">
+							<label class="form-label" for="project-name">Name</label>
+							<input class="form-input required" id="project-name-edit" type="text" placeholder="Name">
+						</div>
+						<div class="form-group">
+							<label class="form-label" for="project-description">Description (optional)</label>
+							<textarea class="form-input" id="project-description-edit" type="text" placeholder="Description"></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" id="submit-edit-project">Update</button>
+					<a class="btn btn-link modal-close" style="cursor: pointer;" aria-label="Close">Close</a>
+				</div>
+			</div>
+		</div>
+
 
 		<!-- Add Repository Modal -->
 		<div class="modal modal-sm" id="modal-add-repository">
