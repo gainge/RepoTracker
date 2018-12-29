@@ -146,11 +146,11 @@ Todo:
 					<div class="content">
 						<!-- content here -->
 						<div class="form-group">
-							<label class="form-label" for="project-name">Name</label>
+							<label class="form-label" for="project-name-edit">Name</label>
 							<input class="form-input required" id="project-name-edit" type="text" placeholder="Name">
 						</div>
 						<div class="form-group">
-							<label class="form-label" for="project-description">Description (optional)</label>
+							<label class="form-label" for="project-description-edit">Description (optional)</label>
 							<textarea class="form-input" id="project-description-edit" type="text" placeholder="Description"></textarea>
 						</div>
 					</div>
@@ -176,13 +176,39 @@ Todo:
 					<div class="content">
 						<!-- content here -->
 						<div class="form-group">
-							<label class="form-label" for="repository-link">Link</label>
-							<input class="form-input required" id="repository-link" type="text" placeholder="Description"></input>
+							<label class="form-label" for="repository-link">Link (github repo)</label>
+							<input class="form-input required" id="repository-link" type="text" placeholder="Github Link"></input>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-primary" id="submit-add-repository">Submit</button>
+					<a class="btn btn-link modal-close" style="cursor: pointer;" aria-label="Close">Close</a>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Edit repository modal -->
+		<div class="modal modal-sm" id="modal-edit-repository">
+			<p class="modal-overlay modal-close" style="cursor: pointer;" aria-label="Close"></p>
+			<div class="modal-container">
+				<div class="modal-header" style="padding-bottom: 0rem;">
+					<p class="btn btn-clear float-right modal-close" style="cursor: pointer;" aria-label="Close" ></p>
+					<div class="modal-title h5">Edit Repository</div>
+					<hr>
+				</div>
+				<div class="modal-body">
+					<div class="content">
+						<!-- content here -->
+						<div class="form-group">
+							<label class="form-label" for="repository-link-edit">Link (github repo)</label>
+							<input class="form-input required" id="repository-link-edit" type="text" placeholder="Github Link"></input>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" id="submit-edit-repository">Update</button>
 					<a class="btn btn-link modal-close" style="cursor: pointer;" aria-label="Close">Close</a>
 				</div>
 			</div>

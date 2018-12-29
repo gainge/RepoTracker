@@ -152,18 +152,34 @@ function modalError(operation, objectType) {
 	}
 }
 
+function inputValidationCurry(operation, objectType, customFunctionality) {
+	customFunctionality = customFunctionality || function() {return undefined;};
+
+	return function() {
+		// Perform the standard validation of required fields
+		validateRequiredFields(operation, objectType);
+
+		// Also do the extra stuff that the user may have specified
+		if (typeof customFunctionality === "function") {
+			customFunctionality();
+		}
+	};
+
+}
+
 // Unfortunately all this stuff tends to have duplicated code...
 // I'll find a way to fix it though, definitely
 function wireProjectModals() {
 	// Add
+	var addValidation = inputValidationCurry("add", "project");
+
 	$("#add-project").click(function() {
 		$("#modal-add-project").addClass("active");
-		validateRequiredFields("add", "project");
+		addValidation();
 	});
 
 	$("#project-name").on('input', function() {
-		// $("#submit-add-project").prop("disabled", $("#project-name").val());
-		validateRequiredFields("add", "project");
+		addValidation();
 	});
 
 	$("#submit-add-project").click(function() {
@@ -181,34 +197,39 @@ function wireProjectModals() {
 	});
 
 	// Edit
-	// Model opening is handled by individual edit buttons on the page
+	// Modal opening is handled by individual edit buttons on the page
+	var editValidation = inputValidationCurry("edit", "project");
 
 	// Select all required fields
 	$("#modal-edit-project .required").on("input", function() {
-		validateRequiredFields("edit", "project");
+		editValidation();
 	});
 
-	$("#submit-edit-project").click(function() { alert("Not implemented!");});	// I hope that re-assigning this reference will work like I expect, lol
+	$("#submit-edit-project").click(function() { alert("Not implemented!");});
 
 }
 
 
 function wireRepositoryModals() {
+
+	var checkLinkURL = function() {
+		var url = $("#repository-link").val();
+
+		$("#submit-add-repository").prop("disabled", !validateGithubURL(url));
+	};
+	var addValidation = inputValidationCurry("add", "repository", checkLinkURL);
+
 	// Allow the button to display the modal
 	$("#add-repository").click(function() {
 		console.log("Clicked add repo!!");
 		$("#modal-add-repository").addClass("active");
-		validateRequiredFields("add", "repository");
+		addValidation();
 	});
 
-	var validationHelper = function() {
-		validateRequiredFields("add", "repository");
-	}
-	$("#repository-link").on('input', validationHelper);
+	$("#repository-link").on('input', addValidation);
 
 
 	$("#submit-add-repository").click(function() {
-
 		var project_id = parseInt(decodeURI(window.location.hash).split('/')[1]);
 
 		// Build our object
@@ -218,26 +239,27 @@ function wireRepositoryModals() {
 			submission_date: getTime(),
 			ta_id: ta_id,
 			project_id: project_id,	// This is an assumption lol
-			active: 1
+			active: 0				// 0 means that no zip file has been provided yet
 		};
 
 		console.log(data);
 
-		// Define our callback methods
-		var success = function(data) {
-			console.log(data);
-			closeModal();
-			reloadCurrentPage();
-		};
-
-		var error = function(data) {
-			console.log(data);
-			alert("Failed to add repository!");
-			closeModal();
-		};
-
 		postData(data, "/api/repository/create.php", modalSuccess, modalError("add", "repository"));
 	});
+
+	checkLinkURL = function() {
+		var url = $("#repository-link-edit").val();
+
+		$("#submit-edit-repository").prop("disabled", !validateGithubURL(url));
+	};
+	var editValidation = inputValidationCurry("edit", "repository", checkLinkURL);
+
+
+	// Edit
+	// Model opening is handled by individual edit buttons on the page
+	$("#modal-edit-repository .required").on("input", editValidation);
+
+	$("#submit-edit-repository").click(function() { alert("Not implemented!");});	// We override this later
 
 }
 
@@ -287,6 +309,51 @@ function getProjectByID(id) {
 }
 
 
+function getRepositoryByID(id) {
+	var selectedRepo = null;
+
+	$.each(repositories, function(index, repo) {
+		if (repo.id == id) {
+			selectedRepo = repo;
+			return false;
+		}
+	});
+
+	return selectedRepo;
+}
+
+
+function validateGithubURL(url) {
+	var gitRegex = RegExp("^.*github.com\/.+\/.+", "ig");
+
+	return gitRegex.test(url);
+}
+
+
+function cleanGithubURL(url) {
+	var lowerURL = url.toLowerCase();
+
+	if (lowerURL.indexOf("http") == 0) {
+		return url.substring(url.indexOf("/") + 2);	// Cut off the http/https junk at the start
+	}
+	else {
+		return url;
+	}
+}
+
+function getRepoUserAndTitle(url) {
+	if (!validateGithubURL(url)) {
+		return null;
+	}
+
+	var cleaned = cleanGithubURL(url);
+
+	var splitURL = cleaned.split("/");
+
+	return [splitURL[1], splitURL[2]];
+}
+
+
 function isHomepage(url) {
 	return (url == homepage || url == '' || url == "#");
 }
@@ -324,8 +391,8 @@ function renderReposPage(data) {
 		var repo_submission_date = new Date(repo.submission_date * 1000);
 		var repo_id = repo.id;
 		var repo_url = repo.link;
-		var repo_split = repo_url.split('/');
-		var repo_description = repo_split[3] + ": " + repo_split[4];
+		var url_parts = getRepoUserAndTitle(repo_url);
+		var repo_description = url_parts[0] + ": " + url_parts[1];
 
 		if (!repo.active) {
 			return true;
@@ -347,7 +414,7 @@ function renderReposPage(data) {
 					"</div>" +
 					"<div class='tile-action'>" +
 						"<button class='btn btn-link'>" +
-						"<button class='btn btn-edit btn-primary' style='margin-right: 0.2rem !important;' onclick='showEditModal()'>Edit</button>" +
+						"<button class='btn btn-edit btn-primary' style='margin-right: 0.2rem !important;' onclick='editRepository(" + repo_id + ")'>Edit</button>" +
 						"<button class='btn btn-secondary btn-error' onclick='removeObject(" + repo_id + ", \"repository\")'>Remove</button>" +
 						"</button>" +
 					"</div>" +
@@ -415,11 +482,6 @@ function renderErrorPage(){
 	alert("You broke something you dummy!");
 }
 
-
-function showEditModal() {
-	console.log("Modals will be here eventually!");
-}
-
 function editProject(id) {
 	console.log("Clicked edit project!!");
 
@@ -449,6 +511,40 @@ function editProject(id) {
 
 	// Finally, show the modal
 	$("#modal-edit-project").addClass("active");
+}
+
+function editRepository(id) {
+	console.log("Editing repository: " + id);
+
+	var selectedRepo = getRepositoryByID(id);
+
+	// Guard against null values
+	if (!selectedRepo) {
+		alert("Failed to retrieve repository information!");
+		return;
+	}
+
+	$("#repository-link-edit").val(selectedRepo.link);
+
+	$("#submit-edit-repository").off("click");
+	$("#submit-edit-repository").click(function() {	// You know, it actually wouldn't even be that bad to just re-wire the click function right here...
+		// Build our object, ID and submission date remaining the same
+		var data = {
+			id: id,
+			link: $("#repository-link-edit").val(),
+			submission_date: selectedRepo.submission_date,
+			ta_id: selectedRepo.ta_id,
+			project_id: selectedRepo.project_id,
+			active: selectedRepo.active
+		};
+
+		console.log(data);
+
+		postData(data, "/api/repository/update.php", modalSuccess, modalError("edit", "repository"));
+	});
+
+	// Finally, show the modal
+	$("#modal-edit-repository").addClass("active");
 }
 
 
