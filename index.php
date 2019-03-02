@@ -104,6 +104,65 @@ Todo:
 			<br>
 		</div>
 
+
+		<!-- Code -->
+		<div class="container" id="code">
+			<div class="page-header">
+				<div class="">
+
+				</div>
+			</div>
+			<div id="code-body">
+
+			</div>
+
+			<br>
+			<br>
+		</div>
+
+
+
+		<!-- Set Code Modal -->
+		<div class="modal modal-sm active" id="modal-set-code">
+			<p class="modal-overlay modal-close" style="cursor: pointer;" aria-label="Close"></p>
+			<div class="modal-container">
+				<div class="modal-header" style="padding-bottom: 0rem;">
+					<p class="btn btn-clear float-right modal-close" style="cursor: pointer;" aria-label="Close" ></p>
+					<div class="modal-title h5">Repo Code</div>
+					<hr>
+				</div>
+				<div class="modal-body">
+					<div class="content">
+						<!-- content here -->
+						<p>Code for this repository has not been provided, please select an option below.</p>
+
+						<!-- This may have to be built dynamically?  So that we can extract the repo information from it? -->
+						<form action="upload.php" method="post" enctype="multipart/form-data">
+							Upload Zip File
+
+							<!-- The hidden input can be used to pass along more params to the php script -->
+							<!-- Accessed via $info = $_POST["info"]; -->
+							<input type="hidden" name="info" value="fromPage">
+							<input type="file" name="fileToUpload" id="fileToUpload" accept="application/zip">
+							<input type="submit" id="submit-upload-code" value="Upload Zip" name="submit">
+						</form>
+
+						<br>
+						<button class="btn btn-secondary" id="submit-download-code">Download Repo</button>
+
+
+						<!-- <label class="form-label" for="submit-upload-code">Upload Zip</label>
+						<input type="file" id="submit-upload-code"></input> -->
+					</div>
+				</div>
+				<div class="modal-footer">
+					<a class="btn btn-link modal-close" style="cursor: pointer;" aria-label="Close">Close</a>
+				</div>
+			</div>
+		</div>
+
+
+
 		<!-- Add project Modal -->
 		<div class="modal modal-sm" id="modal-add-project">
 			<p class="modal-overlay modal-close" style="cursor: pointer;" aria-label="Close"></p>
