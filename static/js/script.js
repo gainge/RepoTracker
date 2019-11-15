@@ -28,6 +28,7 @@ $(function() {
 		$("#projects").hide();
 	}
 	$("#repositories").hide();
+	$("#code").hide();
 
 	// The main meaty function of the day
 	$(window).on('hashchange', function() {
@@ -133,6 +134,9 @@ function wireModals() {
 
 	/* Repositories */
 	wireRepositoryModals();
+
+	/* Code */
+	wireCodeModals();
 
 	// General, for all modals
 	$(".modal-close").click(closeModal);
@@ -261,6 +265,18 @@ function wireRepositoryModals() {
 
 	$("#submit-edit-repository").click(function() { alert("Not implemented!");});	// We override this later
 
+}
+
+
+function wireCodeModals() {
+
+	$("#submit-download-code").click(function() {
+		alert("Sorry, that hasn't been implemented yet!");
+	});
+
+	$("#submit-upload-code").click(function() {
+		// We'll want to use some sort of callback function here, if possible
+	})
 }
 
 
